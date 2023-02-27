@@ -14,7 +14,8 @@ from .serializers import UserSerializer,RegisterSerializer
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
-
+from rest_framework.exceptions import PermissionDenied
+from rich import print as pprint
 
 @api_view(['GET', 'POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -44,13 +45,35 @@ def example_view(request, format=None):
 # Class based view to Get User Details using Token Authentication
 class UserDetailAPI(APIView):
   authentication_classes = (TokenAuthentication,)
-  permission_classes = (AllowAny,)
+  permission_classes = (IsAuthenticated,)
+  
   def get(self,request,*args,**kwargs):
-    user = User.objects.get(id=request.user.id)
+    if request.user.is_authenticated:
+        print('[*] User is authenticated.')
+    else:
+        print('[*] User is not authenticated.')
+        #raise PermissionDenied('You must be authenticated to access this.')
+    pprint('[*] Request:', request, request.query_params, dir(request), 
+          request.__dict__, sep='\n\n', end='\n\n') # debugging info
+    
+    print('[*]', request.query_params, end='\n\n') # debugging info
+    user_id = request.query_params.get('id')
+    
+    
+    if user_id is None:
+        return Response({'error': 'id parameter is missing from the request.'}, status=400)
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({'error': f'User with id {user_id} does not exist.'}, status=404)
+    pprint('[*]', user_id, user)
+    
     serializer = UserSerializer(user)
     return Response(serializer.data)
+
 
 #Class based view to register user
 class RegisterUserAPIView(generics.CreateAPIView):
   permission_classes = (AllowAny,)
   serializer_class = RegisterSerializer
+  

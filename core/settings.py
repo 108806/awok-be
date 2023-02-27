@@ -124,6 +124,7 @@ REST_FRAMEWORK = {
 #    }
 # }
 
+#Postgres local:
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
@@ -131,7 +132,7 @@ DATABASES = {
        'USER': 'djangorestapi_user',
        'PASSWORD': 'superhack',
        'HOST': 'localhost',
-       'PORT': '5433',
+       'PORT': '5432',
    }
 }
 

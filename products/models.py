@@ -13,7 +13,7 @@ class Product(models.Model):
     def get_discount(self):
         return f'{self.sale_price*0.8:.2F}'
 
-class User(models.Model):
+class API_User(models.Model):
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=128)
     created = models.DateTimeField(auto_now_add=True)
