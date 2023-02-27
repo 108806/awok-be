@@ -114,11 +114,11 @@ REST_FRAMEWORK = {
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'djangorestapi_db', 
-       'USER': 'djangorestapi_user',
-       'PASSWORD': 'superhack',
-       'HOST': 'localhost',
-       'PORT': '5433',
+       'NAME': 'def75tnsim8u86', 
+       'USER': 'aortrhuauytyno',
+       'PASSWORD': '28b360d18651b067c1379dde1527cc52c7d974e31bbe7bebcfa1bd7c53a1b2fa',
+       'HOST': 'ec2-18-210-49-255.compute-1.amazonaws.com',
+       'PORT': '5432',
    }
 }
 
