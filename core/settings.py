@@ -103,7 +103,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
-
+# BASIC:
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
@@ -111,16 +111,30 @@ REST_FRAMEWORK = {
 #     }
 # }
 
+
+# HEROKU:
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'def75tnsim8u86', 
+#        'USER': 'aortrhuauytyno',
+#        'PASSWORD': '28b360d18651b067c1379dde1527cc52c7d974e31bbe7bebcfa1bd7c53a1b2fa',
+#        'HOST': 'ec2-18-210-49-255.compute-1.amazonaws.com',
+#        'PORT': '5432',
+#    }
+# }
+
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'def75tnsim8u86', 
-       'USER': 'aortrhuauytyno',
-       'PASSWORD': '28b360d18651b067c1379dde1527cc52c7d974e31bbe7bebcfa1bd7c53a1b2fa',
-       'HOST': 'ec2-18-210-49-255.compute-1.amazonaws.com',
-       'PORT': '5432',
+       'NAME': 'djangorestapi_db', 
+       'USER': 'djangorestapi_user',
+       'PASSWORD': 'superhack',
+       'HOST': 'localhost',
+       'PORT': '5433',
    }
 }
+
 
 
 # Password validation
@@ -163,7 +177,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
-django_heroku.settings(locals())
+print('STATICFILES_DIRS', STATICFILES_DIRS, 'STATIC_ROOT', STATIC_ROOT)
 
 
 print('STATIC ROOT:', STATIC_ROOT, 'STATIC FILES:', STATICFILES_DIRS)
