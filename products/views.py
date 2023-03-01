@@ -74,6 +74,6 @@ class UserDetailAPI(APIView):
 
 #Class based view to register user
 class RegisterUserAPIView(generics.CreateAPIView):
-  permission_classes = (AllowAny,)
+  permission_classes = (AllowAny,) #Secure it after deployment
   serializer_class = RegisterSerializer
   
