@@ -52,7 +52,7 @@ class UserDetailAPI(APIView):
         print('[*] User is authenticated.')
     else:
         print('[*] User is not authenticated.')
-        #raise PermissionDenied('You must be authenticated to access this.')
+        raise PermissionDenied('U must be authenticated to access this.')
     pprint('[*] Request:', request, request.query_params, dir(request), 
           request.__dict__, sep='\n\n', end='\n\n') # debugging info
     
