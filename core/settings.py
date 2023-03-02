@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-import os, django_heroku, dj_database_url
+import os
 
 
 # Quick-start development settings - unsuitable for production
@@ -181,10 +181,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
 print('STATICFILES_DIRS', STATICFILES_DIRS, 'STATIC_ROOT', STATIC_ROOT)
-
-
-print('STATIC ROOT:', STATIC_ROOT, 'STATIC FILES:', STATICFILES_DIRS)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

@@ -27,7 +27,7 @@ from django.conf.urls.static import static
 
 from rest_framework.authtoken import views
 
-from products.views import UserDetailAPI,RegisterUserAPIView
+from products.views import UserDetailAPI,RegisterUserAPIView, UsersDetailAPI
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -45,7 +45,11 @@ urlpatterns = [
     path('api/', api_home),
     path('test/', example_view),
     path('api-token-auth', views.obtain_auth_token),
-    path('get-user',UserDetailAPI.as_view()),
+    path('get-user-by-id', UserDetailAPI.as_view()),
+    
+    path('get-user', UserDetailAPI.as_view()),
+    path('get-users', UsersDetailAPI.as_view()),
+    
     path('<int:pk>', UserDetailAPI.as_view()),
     path('register',RegisterUserAPIView.as_view()),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

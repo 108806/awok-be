@@ -53,22 +53,85 @@ class UserDetailAPI(APIView):
     else:
         print('[*] User is not authenticated.')
         raise PermissionDenied('U must be authenticated to access this.')
+    
     pprint('[*] Request:', request, request.query_params, dir(request), 
           request.__dict__, sep='\n\n', end='\n\n') # debugging info
-    
     print('[*]', request.query_params, end='\n\n') # debugging info
+    
     user_id = request.query_params.get('id')
+    user_uname = request.query_params.get('username')
+    user_email = request.query_params.get('email')
+    user_firstname = request.query_params.get('first_name')
+    user_lastname = request.query_params.get('last_name')
+    params = [x for x in (user_id, user_uname, user_email, user_firstname, user_lastname) if x]
     
-    
-    if user_id is None:
-        return Response({'error': 'id parameter is missing from the request.'}, status=400)
+    if not any(params):
+        return Response({'Error': 
+            'ID/username/email parameter is missing from the request.'}, 
+                        status=400)
+    if len(params) > 1:
+        return Response({'Error':
+            'Multiple parameters provided, choose one.'}, 
+                        status=400)
     try:
-        user = User.objects.get(id=user_id)
+        query = {'id': user_id, 
+                 'username': user_uname,
+                 'email': user_email,
+                 'first_name': user_firstname,
+                 'last_name': user_lastname,
+                 }
+        query = {k:v for k,v in query.items() if v}
+        assert len(query) == 1, 'Error: multiple query parameters'
+        user = User.objects.get(**query)
     except User.DoesNotExist:
-        return Response({'error': f'User with id {user_id} does not exist.'}, status=404)
+        return Response({'error': f'User with {query} does not exist.'}, status=404)
+    
     pprint('[*]', user_id, user)
     
     serializer = UserSerializer(user)
+    return Response(serializer.data)
+
+class UsersDetailAPI(APIView):
+  authentication_classes = (TokenAuthentication,)
+  permission_classes = (IsAuthenticated,)
+  
+  def get(self,request,*args,**kwargs):
+    if request.user.is_authenticated:
+        print('[*] User is authenticated.')
+    else:
+        print('[*] User is not authenticated.')
+        raise PermissionDenied('U must be authenticated to access this.')
+    
+    pprint('[*] Request:', request, request.query_params, dir(request), 
+          request.__dict__, sep='\n\n', end='\n\n')
+    print('[*]', request.query_params, end='\n\n') # debugging info
+    
+    user_id = request.query_params.get('id')
+    user_email = request.query_params.get('email')
+    user_uname = request.query_params.get('username')
+    user_firstname = request.query_params.get('first_name')
+    user_lastname = request.query_params.get('last_name')
+    params = [x for x in (user_id, user_uname, user_email, user_firstname, user_lastname) if x]
+    
+    if not any(params):
+        return Response({'Error': 
+            'ID/username/email parameter is missing from the request.'}, 
+                        status=400)
+    try:
+        query = {'id': user_id, 
+                 'username': user_uname,
+                 'email': user_email,
+                'first_name': user_firstname,
+                 'last_name': user_lastname,
+                 }
+        query = {k:v for k,v in query.items() if v}
+        user = User.objects.filter(**query)
+    except User.DoesNotExist:
+        return Response({'error': f'Users with {query} dont exist.'}, status=404)
+    
+    pprint('[*]', user)
+    
+    serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
 
 
