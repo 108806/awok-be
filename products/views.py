@@ -125,7 +125,7 @@ class UsersDetailAPI(APIView):
                  'last_name': user_lastname,
                  }
         query = {k:v for k,v in query.items() if v}
-        user = User.objects.filter(**query)
+        user = User.objects.filter(**query).order_by('id')
     except User.DoesNotExist:
         return Response({'error': f'Users with {query} dont exist.'}, status=404)
     
