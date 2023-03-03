@@ -27,7 +27,7 @@ from django.conf.urls.static import static
 
 from rest_framework.authtoken import views
 
-from products.views import UserDetailAPI,RegisterUserAPIView, UsersDetailAPI
+from products.views import UserDetailAPI,RegisterUserAPIView, UsersDetailAPI, ChangePasswordView, DeleteUserAPI
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -49,6 +49,8 @@ urlpatterns = [
     
     path('get-user', UserDetailAPI.as_view()),
     path('get-users', UsersDetailAPI.as_view()),
+    path('delete-user', DeleteUserAPI),
+    path('change-password', ChangePasswordView.as_view()),
     
     path('<int:pk>', UserDetailAPI.as_view()),
     path('register',RegisterUserAPIView.as_view()),
@@ -56,3 +58,4 @@ urlpatterns = [
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

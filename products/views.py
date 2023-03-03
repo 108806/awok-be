@@ -1,5 +1,4 @@
-import json
-from django.http import JsonResponse
+from django.forms import ValidationError
 from products.models import Product
 from products.serializers import ProductSerializer
 from rest_framework.response import Response
@@ -10,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import UserSerializer,RegisterSerializer
+from .serializers import UserSerializer,RegisterSerializer,ChangePasswordSerializer
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
@@ -134,9 +133,43 @@ class UsersDetailAPI(APIView):
     serializer = UserSerializer(user, many=True)
     return Response(serializer.data)
 
-
 #Class based view to register user
 class RegisterUserAPIView(generics.CreateAPIView):
   permission_classes = (AllowAny,) #Secure it after deployment
   serializer_class = RegisterSerializer
-  
+
+
+@api_view(['DELETE'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def DeleteUserAPI(request):
+    user_id = request.query_params.get('id')
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({'error': f'User with id {user_id} does not exist.'}, status=404)
+
+    user.delete()
+    return Response({'success': f'User with id {user_id} deleted successfully.'},
+        status=204)
+
+
+
+class ChangePasswordView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def patch(self, request):
+        serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        
+        # Get the user from the request
+        user = request.user
+        new_password = serializer.validated_data['new_password']
+
+        # Set the new password
+        user.set_password(new_password)
+        user.save()
+
+        # Return a success response
+        return Response({"success": "Password updated successfully."})
