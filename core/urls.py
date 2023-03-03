@@ -27,7 +27,7 @@ from django.conf.urls.static import static
 
 from rest_framework.authtoken import views
 
-from products.views import UserDetailAPI,RegisterUserAPIView, UsersDetailAPI, ChangePasswordView, DeleteUserAPI
+from products.views import UserDetailAPI,RegisterUserAPIView, UsersDetailAPI, ChangePasswordView, DeleteUserAPI, SessionViewAPI
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -51,6 +51,8 @@ urlpatterns = [
     path('get-users', UsersDetailAPI.as_view()),
     path('delete-user', DeleteUserAPI),
     path('change-password', ChangePasswordView.as_view()),
+    
+    path('get-session', SessionViewAPI.as_view()),
     
     path('<int:pk>', UserDetailAPI.as_view()),
     path('register',RegisterUserAPIView.as_view()),

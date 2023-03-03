@@ -173,3 +173,15 @@ class ChangePasswordView(APIView):
 
         # Return a success response
         return Response({"success": "Password updated successfully."})
+
+
+
+class SessionViewAPI(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    
