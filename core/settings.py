@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'django.contrib.staticfiles',
     'drf_yasg',
-    
 ]
 
 MIDDLEWARE = [
@@ -97,7 +96,6 @@ WSGI_APPLICATION = "core.wsgi.application"
 #Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS. WTF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
         'DEFAULT_PERMISSION_CLASSES': [
@@ -106,26 +104,6 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
-# BASIC:
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-
-# HEROKU:
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'def75tnsim8u86', 
-#        'USER': 'aortrhuauytyno',
-#        'PASSWORD': '28b360d18651b067c1379dde1527cc52c7d974e31bbe7bebcfa1bd7c53a1b2fa',
-#        'HOST': 'ec2-18-210-49-255.compute-1.amazonaws.com',
-#        'PORT': '5432',
-#    }
-# }
 
 #Postgres local:
 DATABASES = {

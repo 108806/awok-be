@@ -185,3 +185,10 @@ class SessionViewAPI(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
     
+class UserUpdateView(generics.UpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = (TokenAuthentication,)
+
+    def get_object(self):
+        return self.request.user
