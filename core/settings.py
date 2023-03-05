@@ -31,7 +31,7 @@ APPEND_SLASH = True
 
 from socket import gethostname, gethostbyname
 ALLOWED_HOSTS = [
-    gethostname(),
+    gethostname(),'vps-1a79e2b1.vps.ovh.net',
     '127.0.0.1','172.31.147.195','172.31.144.1', '172.31.159.255','localhost',
     *[
         ".".join(str(gethostbyname(gethostname())).split(".")[:-1]) + "." + str(x)
@@ -67,7 +67,15 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+#CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = [
+    'https://antoniwrobel.github.aio/awok-fe',
+    'https://antoniwrobel.github.aio'
+    'localhost',
+    '127.0.0.1',
+    'vps-1a79e2b1.vps.ovh.net'
+]
 
 ROOT_URLCONF = "core.urls"
 
