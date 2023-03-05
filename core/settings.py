@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-import os
+import os, django_heroku.settings, dj_database_url,
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,6 +28,7 @@ SECRET_KEY = "django-insecure-#1$%o@ermmclz!j@33jxuvih4_4e8^&$%un4u6944nl-eb$@xh
 DEBUG = True
 TEMPLATE_DEBUG = True
 APPEND_SLASH = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 from socket import gethostname, gethostbyname
 ALLOWED_HOSTS = [
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -114,15 +116,27 @@ REST_FRAMEWORK = {
 
 
 #Postgres local:
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'djangorestapi_db', 
+#        'USER': 'djangorestapi_user',
+#        'PASSWORD': 'superhack',
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+# }
+
+#HEROKU
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'djangorestapi_db', 
-       'USER': 'djangorestapi_user',
-       'PASSWORD': 'superhack',
-       'HOST': 'localhost',
-       'PORT': '5432',
-   }
+    'default': {
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME': 'df7mrf8rusrjtb',
+        'USER': 'acyfruorluizlu',
+        'PORT': '5432',
+        'Password': '06024f73695908ba3598a57c1470f814c43b3eae4968afead79e507006fdab04',
+        'HOST':'ec2-52-18-116-67.eu-west-1.compute.amazonaws.com',
+    }   
 }
 
 
@@ -163,10 +177,12 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+django_heroku.settings(locals())
 
 print('STATICFILES_DIRS', STATICFILES_DIRS, 'STATIC_ROOT', STATIC_ROOT)
 # Default primary key field type
