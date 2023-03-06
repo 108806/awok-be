@@ -48,25 +48,25 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'corsheaders'
     'rest_framework',
     'products',
     'rest_framework.authtoken',
     'rest_framework_swagger',
     'django.contrib.staticfiles',
     'drf_yasg',
-    'corsheaders'
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 #CORS_ORIGIN_ALLOW_ALL = True
@@ -76,6 +76,8 @@ CORS_ORIGIN_WHITELIST = [
     'https://localhost',
     'https://127.0.0.1',
     'https://vps-1a79e2b1.vps.ovh.net'
+    'http://localhost:8080',
+    'http://127.0.0.1:8080'
 ]
 CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = "core.urls"
