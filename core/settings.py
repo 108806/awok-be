@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'django.contrib.staticfiles',
     'drf_yasg',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ CORS_ORIGIN_WHITELIST = [
     '127.0.0.1',
     'vps-1a79e2b1.vps.ovh.net'
 ]
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "core.urls"
 
