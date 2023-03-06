@@ -72,14 +72,12 @@ MIDDLEWARE = [
 #CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = [
-    'https://antoniwrobel.github.aio/awok-fe',
-    'https://antoniwrobel.github.aio'
-    'localhost',
-    '127.0.0.1',
-    'vps-1a79e2b1.vps.ovh.net'
+    'https://antoniwrobel.github.aio',
+    'https://localhost',
+    'https://127.0.0.1',
+    'https://vps-1a79e2b1.vps.ovh.net'
 ]
 CORS_ALLOW_CREDENTIALS = True
-
 ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
