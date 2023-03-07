@@ -58,8 +58,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
     'corsheaders.middleware.CorsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -71,14 +71,39 @@ MIDDLEWARE = [
 
 #CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = [
+CORS_ORIGIN_WHITELIST = (
     'https://antoniwrobel.github.io',
+    'https://antoniwrobel.github.io:3000',
     'https://localhost',
     'https://127.0.0.1',
-    'https://vps-1a79e2b1.vps.ovh.net'
-    'http://localhost:8080',
-    'http://127.0.0.1:8080'
+    'https://vps-1a79e2b1.vps.ovh.net',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+)
+CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://antoniwrobel.github.io\*$",
 ]
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
 CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = "core.urls"
 
