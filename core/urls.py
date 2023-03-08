@@ -29,6 +29,17 @@ from rest_framework.authtoken import views
 
 from products.views import UserDetailAPI,RegisterUserAPIView, UsersDetailAPI, ChangePasswordView, DeleteUserAPI, SessionViewAPI, UserUpdateView
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
+
+urlpatterns = [
+    ...
+
+]
+
 schema_view = get_schema_view(
    openapi.Info(
       title="Snippets API",
@@ -41,26 +52,30 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('api/', api_home),
-    path('test/', example_view),
-    path('api-token-auth', views.obtain_auth_token),
-    path('get-user-by-id', UserDetailAPI.as_view()),
+    path("admin", admin.site.urls),
+    #path('api', api_home),
+    #path('test', example_view),
+    #path('api-token-auth', views.obtain_auth_token),
+    #path('get-user-by-id', UserDetailAPI.as_view()),
     
     path('<int:pk>', UserDetailAPI.as_view()),
-    path('register',RegisterUserAPIView.as_view()),
+    path('api/register',RegisterUserAPIView.as_view()),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
-    path('get-user', UserDetailAPI.as_view()),
-    path('get-users', UsersDetailAPI.as_view()),
-    path('delete-user', DeleteUserAPI),
-    path('change-password', ChangePasswordView.as_view()),
+    path('api/get-user', UserDetailAPI.as_view()),
+    path('api/get-users', UsersDetailAPI.as_view()),
+    path('api/delete-user', DeleteUserAPI),
+    path('api/change-password', ChangePasswordView.as_view()),
     
-    path('get-session', SessionViewAPI.as_view()),
+    path('api/get-session', SessionViewAPI.as_view()),
 
-    path('user-update', UserUpdateView.as_view()),
+    path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+
+    path('api/user-update', UserUpdateView.as_view()),
     
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

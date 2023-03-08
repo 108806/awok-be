@@ -4,6 +4,7 @@ from products.serializers import ProductSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -14,6 +15,7 @@ from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
+
 from rich import print as pprint
 
 @api_view(['GET', 'POST'])
@@ -43,7 +45,7 @@ def example_view(request, format=None):
 
 # Class based view to Get User Details using Token Authentication
 class UserDetailAPI(APIView):
-  authentication_classes = (TokenAuthentication,)
+  authentication_classes = (TokenAuthentication,JWTAuthentication)
   permission_classes = (IsAuthenticated,)
   
   def get(self,request,*args,**kwargs):
@@ -91,7 +93,7 @@ class UserDetailAPI(APIView):
     return Response(serializer.data)
 
 class UsersDetailAPI(APIView):
-  authentication_classes = (TokenAuthentication,)
+  authentication_classes = (TokenAuthentication, JWTAuthentication)
   permission_classes = (IsAuthenticated,)
   
   def get(self,request,*args,**kwargs):
@@ -156,7 +158,7 @@ def DeleteUserAPI(request):
 
 
 class ChangePasswordView(APIView):
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,JWTAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def patch(self, request):
@@ -177,7 +179,7 @@ class ChangePasswordView(APIView):
 
 
 class SessionViewAPI(APIView):
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,JWTAuthentication)
     permission_classes = (IsAuthenticated,)
     
     def get(self, request):
