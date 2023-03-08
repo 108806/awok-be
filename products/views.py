@@ -18,6 +18,9 @@ from rest_framework.exceptions import PermissionDenied
 
 from rich import print as pprint
 
+
+
+
 @api_view(['GET', 'POST'])
 @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -41,6 +44,7 @@ def example_view(request, format=None):
         'auth': str(request.auth),  # None
     }
     return Response(content)
+
 
 
 # Class based view to Get User Details using Token Authentication
@@ -92,6 +96,8 @@ class UserDetailAPI(APIView):
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
+
+
 class UsersDetailAPI(APIView):
   authentication_classes = (TokenAuthentication, JWTAuthentication)
   permission_classes = (IsAuthenticated,)
@@ -122,7 +128,7 @@ class UsersDetailAPI(APIView):
         query = {'id': user_id, 
                  'username': user_uname,
                  'email': user_email,
-                'first_name': user_firstname,
+                 'first_name': user_firstname,
                  'last_name': user_lastname,
                  }
         query = {k:v for k,v in query.items() if v}
@@ -139,6 +145,8 @@ class UsersDetailAPI(APIView):
 class RegisterUserAPIView(generics.CreateAPIView):
   permission_classes = (AllowAny,) #Secure it after deployment
   serializer_class = RegisterSerializer
+
+
 
 
 @api_view(['DELETE'])
@@ -186,6 +194,8 @@ class SessionViewAPI(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+
     
 class UserUpdateView(generics.UpdateAPIView):
     serializer_class = UserSerializer
@@ -194,3 +204,4 @@ class UserUpdateView(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+    

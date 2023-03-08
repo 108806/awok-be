@@ -16,7 +16,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-import os
+import os, dotenv
 
 
 # Quick-start development settings - unsuitable for production
@@ -156,16 +156,16 @@ SIMPLE_JWT = {
 }
 
 
-
+dotenv.load_dotenv()
 #Postgres local:
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'djangorestapi_db', 
-       'USER': 'djangorestapi_user',
-       'PASSWORD': 'superhack',
-       'HOST': 'localhost',
-       'PORT': '5432',
+       'ENGINE':    'django.db.backends.postgresql',
+       'NAME':      os.getenv('DB_NAME'),
+       'USER':      os.getenv('DB_USER'),
+       'PASSWORD':  os.getenv('DB_PASSWORD'),
+       'HOST':      os.getenv('DB_HOST'),
+       'PORT':      os.getenv('DB_PORT'),
    }
 }
 
