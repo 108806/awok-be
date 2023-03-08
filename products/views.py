@@ -4,6 +4,7 @@ from products.serializers import ProductSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -43,7 +44,7 @@ def example_view(request, format=None):
 
 # Class based view to Get User Details using Token Authentication
 class UserDetailAPI(APIView):
-  authentication_classes = (TokenAuthentication,)
+  authentication_classes = (TokenAuthentication,JWTAuthentication)
   permission_classes = (IsAuthenticated,)
   
   def get(self,request,*args,**kwargs):
@@ -91,7 +92,7 @@ class UserDetailAPI(APIView):
     return Response(serializer.data)
 
 class UsersDetailAPI(APIView):
-  authentication_classes = (TokenAuthentication,)
+  authentication_classes = (TokenAuthentication,JWTAuthentication)
   permission_classes = (IsAuthenticated,)
   
   def get(self,request,*args,**kwargs):
@@ -140,7 +141,7 @@ class RegisterUserAPIView(generics.CreateAPIView):
 
 
 @api_view(['DELETE'])
-@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def DeleteUserAPI(request):
     user_id = request.query_params.get('id')
@@ -156,7 +157,7 @@ def DeleteUserAPI(request):
 
 
 class ChangePasswordView(APIView):
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,JWTAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def patch(self, request):
@@ -177,7 +178,7 @@ class ChangePasswordView(APIView):
 
 
 class SessionViewAPI(APIView):
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,JWTAuthentication)
     permission_classes = (IsAuthenticated,)
     
     def get(self, request):
@@ -188,7 +189,7 @@ class SessionViewAPI(APIView):
 class UserUpdateView(generics.UpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated,]
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,JWTAuthentication)
 
     def get_object(self):
         return self.request.user
